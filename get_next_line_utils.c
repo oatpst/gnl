@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwanakit <pwanakit@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pwanakit <pwanakit@42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 12:10:10 by pwanakit          #+#    #+#             */
-/*   Updated: 2024/01/07 17:56:42 by pwanakit         ###   ########.fr       */
+/*   Updated: 2024/01/09 15:21:12 by pwanakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,18 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	char			*str;
-	unsigned char	cha;
+	unsigned char	c1;
+	char			*ptr;
 
-	cha = (unsigned char)c;
-	str = (char *)s;
-	while (*str)
+	c1 = (unsigned char)c;
+	ptr = (char *)s;
+	while (*ptr != c1)
 	{
-		if (*str == cha)
-			return (str);
-		str++;
+		if (!(*ptr))
+			return (NULL);
+		ptr++;
 	}
-	if (cha == '\0')
-		return (str);
-	return (NULL);
+	return (ptr);
 }
 
 int	ft_strlen(const char *str)
@@ -48,7 +46,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	str = malloc(sizeof(char *) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	str = malloc(sizeof(char *) * (ft_strlen(s1) + ft_strlen(s2)));
 	if (str == NULL)
 		return (NULL);
 	i = 0;
@@ -81,7 +79,10 @@ void	*ft_calloc(size_t count, size_t size)
 		return (NULL);
 	ptr = malloc(count * size);
 	if (ptr == NULL)
+	{
+		free(ptr);
 		return (NULL);
+	}
 	ft_bzero(ptr, count * size);
 	return (ptr);
 }

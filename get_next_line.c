@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pwanakit <pwanakit@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pwanakit <pwanakit@42bangkok.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 12:10:07 by pwanakit          #+#    #+#             */
-/*   Updated: 2024/01/07 18:17:04 by pwanakit         ###   ########.fr       */
+/*   Updated: 2024/01/09 15:27:35 by pwanakit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,18 @@ char	*ft_new(char *buffer)
 {
 	size_t	i;
 	size_t	j;
-	size_t	len;
 	char	*line;
 
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	if (!buffer[i])
+	if (!buffer[i] || buffer == NULL)
 	{
 		free(buffer);
 		return (NULL);
 	}
-	len = ft_strlen(buffer);
-	line = ft_calloc((len - i + 1), sizeof(char));
-	i++;
+	line = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
+	i = i + 1;
 	j = 0;
 	while (buffer[i])
 		line[j++] = buffer[i++];
@@ -52,7 +50,7 @@ char	*ft_getline(char *buffer)
 	int		i;
 
 	i = 0;
-	if (!buffer[i])
+	if (!buffer[i] || buffer == NULL)
 		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
@@ -100,7 +98,11 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	{
+		free(buffer);
+		buffer = NULL;
 		return (NULL);
+	}
 	buffer = ft_read(fd, buffer);
 	if (!buffer)
 		return (NULL);
